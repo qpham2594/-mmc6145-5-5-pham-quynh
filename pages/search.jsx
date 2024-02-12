@@ -7,21 +7,30 @@ import { searchRecipes } from '../util/recipe'
 import styles from '../styles/search.module.css'
 
 // TODO: destructure query from argument passed to getServerSideProps
-export async function getServerSideProps() {
-  const props = {}
+export async function getServerSideProps({query}) {
+  if (!query.q) {
+    return{props: {}}
+  }
+  
   // TODO: use searchRecipes to attach recipes prop based on query parameter
-  return { props }
+  const recipes = await searchRecipes(query.q)
+  return { props: {recipes} }
 }
 
 export default function Search({recipes}) {
   const router = useRouter()
   const [query, setQuery] = useState("")
 
-  function handleSubmit(e) {
-    e.preventDefault()
-    if (!query.trim()) return
-    // TODO: Use router.replace with router.pathname + queryString to send query to getServerSideProps
-  }
+function handleSubmit(e) {
+  e.preventDefault();
+  if (!query.trim()) return;
+  // TODO: Use router.replace with router.pathname + queryString to send query to getServerSideProps
+  router.replace({
+    pathname: '/recipe/${id}',
+    query: {q:query},
+  });
+}
+
   return (
     <>
       <Head>
@@ -43,7 +52,16 @@ export default function Search({recipes}) {
       {
         recipes?.length
         ? <section className={styles.results}>
-          {/* TODO: Render recipes with RecipePreview Component */}
+          {/* TODO: Render recipes with RecipePreview Component */
+          recipes.map((recipe) => 
+          (<RecipePreview
+            key={recipe.id}
+            id={recipe.id}
+            title={recipe.title}
+            image={recipe.image}/>))
+            
+          }
+          
         </section>
         : <p className={styles.noResults}>No Recipes Found!</p>
       }

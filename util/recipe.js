@@ -3,14 +3,16 @@
 // import mockRecipe from '../__tests__/util/mocks/recipeResult.json'
 // import mockSearchResults from '../__tests__/util/mocks/recipeSearchResults.json'
 
-export async function getRecipe(id) {
+export async function getRecipe() {
   // return mockRecipe
 
   const response = await fetch(`https://api.spoonacular.com/recipes/${id}/information?apiKey=${process.env.API_KEY}`)
   if (response.status !== 200)
     return null
   const data = await response.json()
+  console.log(data)
   return data
+  
 }
 
 export async function searchRecipes(query) {

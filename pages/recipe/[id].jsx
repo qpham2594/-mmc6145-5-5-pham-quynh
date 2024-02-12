@@ -5,10 +5,15 @@ import { getRecipe } from '../../util/recipe'
 import styles from '../../styles/recipe.module.css'
 
 // TODO: destructure id parameter from argument passed to getServerSideProps
-export async function getServerSideProps() {
-  const props = {}
+export async function getServerSideProps({params: {id}}) {
+  if (!id) {
+    return {props: null}
+  }
   // TODO: call getRecipe using id parameter and pass return value as recipeInfo prop
-  return { props }
+  const recipeInfo = await getRecipe(id)
+  return {
+    props: {recipeInfo}
+  }
 }
 
 export default function Recipe({recipeInfo}) {
@@ -20,7 +25,18 @@ export default function Recipe({recipeInfo}) {
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍴</text></svg>"/>
       </Head>
 
-      {/* TODO: Render RecipeInfo component with recipeInfo prop, OR RecipeError if no recipe */}
+   
+
+      {/* TODO: Render RecipeInfo component with recipeInfo prop, OR RecipeError if no recipe */
+      recipeInfo?  
+      (<RecipeInfo
+        key={recipeInfo.id}
+        title={recipeInfo.title}
+        image={recipeInfo.image}
+        readyInMinutes={recipeInfo.readyInMinutes}
+        instructions={recipeInfo.summary}
+        extendedIngredients={recipeInfo.extendedIngredients}/> ) :  <RecipeError/>
+        }
 
       <Link className={styles.return} href="/search">Return to Search</Link>
     </>
