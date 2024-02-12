@@ -26,8 +26,8 @@ function handleSubmit(e) {
   if (!query.trim()) return;
   // TODO: Use router.replace with router.pathname + queryString to send query to getServerSideProps
   router.replace({
-    pathname: '/recipe/${id}',
-    query: {q:query},
+    pathname: 'https://api.spoonacular.com/recipes/${id}/information',
+    query: {query:q},
   });
 }
 
