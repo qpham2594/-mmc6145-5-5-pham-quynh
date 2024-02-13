@@ -25,10 +25,7 @@ function handleSubmit(e) {
   e.preventDefault();
   if (!query.trim()) return;
   // TODO: Use router.replace with router.pathname + queryString to send query to getServerSideProps
-  router.replace({
-    pathname: "/search",
-    query: {q:encodeURIComponent(query)},
-  });
+  router.replace('/search?q=banana');
 }
 
   return (
