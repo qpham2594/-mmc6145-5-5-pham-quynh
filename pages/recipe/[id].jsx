@@ -34,7 +34,8 @@ export default function Recipe({recipeInfo}) {
         title={recipeInfo.title}
         image={recipeInfo.image}
         readyInMinutes={recipeInfo.readyInMinutes}
-        instructions={recipeInfo.summary}
+        instructions={recipeInfo.instructions}
+        summary={recipeInfo.summary}
         extendedIngredients={recipeInfo.extendedIngredients}/> ) :  <RecipeError/>
         }
 
